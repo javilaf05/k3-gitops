@@ -23,9 +23,8 @@ spec:
           mountPath: /usr/share/nginx/html
       volumes:
       - name: datos-web
-         Orc:
-          persistentVolumeClaim:
-            claimName: tfg-local-pvc
+        persistentVolumeClaim:
+          claimName: tfg-local-pvc
 ---
 apiVersion: v1
 kind: Service
