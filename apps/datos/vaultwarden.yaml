@@ -3,8 +3,10 @@ kind: Deployment
 metadata:
   name: vaultwarden
   namespace: default
+  labels:
+    app.kubernetes.io/name: vaultwarden
 spec:
-  replicas: 1 
+  replicas: 1
   selector:
     matchLabels:
       app: vaultwarden
@@ -27,6 +29,7 @@ metadata:
   namespace: default
 spec:
   selector:
+    # Vinculación directa con el selector del Pod
     app: vaultwarden
   ports:
   - port: 80
@@ -37,9 +40,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: vaultwarden-ingress-v2 
+  name: vaultwarden-ingress-v3 # Avanzamos de versión para romper la caché de Traefik
   namespace: default
   annotations:
+    # --- ANOTACIÓN CLAVE PARA TRAEFIK ---
+    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
     traefik.ingress.kubernetes.io/router.clientaccepttimeout: "5m"
 spec:
   rules:
