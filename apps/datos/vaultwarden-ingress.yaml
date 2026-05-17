@@ -4,7 +4,7 @@ metadata:
   name: vaultwarden-ingress
   namespace: default
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: "kube-system-redirect-https@cuberdns"
+    traefik.ingress.kubernetes.io/router.middlewares: "kube-system-redirect-https@kubernetescrd"
     traefik.ingress.kubernetes.io/router.clientaccepttimeout: "5m"
 spec:
   rules:
