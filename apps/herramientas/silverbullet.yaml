@@ -29,9 +29,13 @@ spec:
       containers:
       - name: silverbullet
         image: silverbulletdb/silverbullet:latest
+        command: ["silverbullet", "listen", "--port", "3000", "/space"]
         ports:
         - containerPort: 3000
           name: http
+        env:
+        - name: PURGE_EVERYWHERE
+          value: "true"
         volumeMounts:
         - name: space-data
           mountPath: /space
