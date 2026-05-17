@@ -22,6 +22,6 @@ spec:
         runAsNonRoot: false
       containers:
       - name: knative-net-traefik
-        image: gcr.io/knative-releases/knative.dev/net-traefik/cmd/controller:v1.13.0
+        image: ghcr.io/knative/net-traefik/controller:v1.13.0
         securityContext:
           privileged: true
