@@ -4,7 +4,7 @@ metadata:
   name: vaultwarden
   namespace: default
 spec:
-  replicas: 1
+  replicas: 1 
   selector:
     matchLabels:
       app: vaultwarden
@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vaultwarden
+  name: vaultwarden-service
   namespace: default
 spec:
   selector:
@@ -37,7 +37,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: vaultwarden-ingress
+  name: vaultwarden-ingress-v2 
   namespace: default
   annotations:
     traefik.ingress.kubernetes.io/router.clientaccepttimeout: "5m"
@@ -50,10 +50,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: vaultwarden 
+            name: vaultwarden-service
             port:
               number: 80
   tls:
   - hosts:
-    - vaultwarden.jlc.local
     - vaultwarden.jlc.local
