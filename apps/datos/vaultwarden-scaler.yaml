@@ -1,0 +1,21 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: vaultwarden-scaler
+  namespace: default 
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vaultwarden   
+  minReplicaCount: 0   
+  maxReplicaCount: 2   
+  cooldownPeriod: 300  # Aquí dejamos 5 minutos (300s) para que no se apague inmediatamente tras meter una contraseña
+  pollingInterval: 15  
+  triggers:
+  - type: prometheus
+    metadata:
+      serverAddress: http://victoria-metrics-victoria-metrics-single-server.monitorizacion.svc.cluster.local:8428
+      metricName: traefik_service_requests_total
+      query: sum(rate(traefik_service_requests_total{service=~"vaultwarden.*"}[1m]))
+      threshold: '1'
