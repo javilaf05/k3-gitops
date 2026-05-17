@@ -63,7 +63,7 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-  - host: wiki.jlc.local
+  - host: trilium.jlc.local
     http:
       paths:
       - path: /
