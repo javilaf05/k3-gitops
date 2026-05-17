@@ -10,6 +10,7 @@ spec:
     size: 3Gi
     storageClass: local-path
   backup:
+    retentionPolicy: "7d"
     barmanObjectStore:
       destinationPath: s3://cnpg-backups/
       endpointURL: http://minio-service.default.svc.cluster.local:9000
@@ -22,7 +23,3 @@ spec:
           key: AWS_SECRET_ACCESS_KEY
       wal:
         compression: gzip
-        
-    retentionPolicy:
-      keep:
-        lessThan: "7d"
