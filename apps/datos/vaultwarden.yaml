@@ -23,10 +23,10 @@ spec:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: vaultwarden-db-object
-              key: pgsslurl  
+              name: vaultwarden-db-app
+              key: uri
         - name: SIGNUPS_ALLOWED
-          value: "true"  
+          value: "true" 
 ---
 apiVersion: v1
 kind: Service
