@@ -3,10 +3,8 @@ kind: Deployment
 metadata:
   name: vaultwarden
   namespace: default
-  labels:
-    app: vaultwarden
 spec:
-  replicas: 1 
+  replicas: 1
   selector:
     matchLabels:
       app: vaultwarden
@@ -21,8 +19,40 @@ spec:
         ports:
         - containerPort: 80
           name: http
-        - containerPort: 3012
-          name: websocket
-        env:
-        - name: WEBSOCKET_ENABLED
-          value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaultwarden
+  namespace: default
+spec:
+  selectors:
+    app: vaultwarden
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vaultwarden-ingress
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.clientaccepttimeout: "5m"
+spec:
+  rules:
+  - host: vaultwarden.jlc.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vaultwarden 
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - vaultwarden.jlc.local
