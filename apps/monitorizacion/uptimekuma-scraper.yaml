@@ -1,0 +1,13 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScraper
+metadata:
+  name: uptime-kuma-scraper
+  namespace: monitorizacion
+spec:
+  podMetricsEndpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: uptime-kuma
