@@ -49,6 +49,8 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.clientaccepttimeout: "5m"
+    traefik.ingress.kubernetes.io/router.backendresponsehandler.clienttimeout: "60s"
 spec:
   rules:
   - host: vaultwarden.jlc.local
