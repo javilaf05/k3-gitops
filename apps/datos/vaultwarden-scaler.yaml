@@ -15,7 +15,7 @@ spec:
   triggers:
   - type: prometheus
     metadata:
-      serverAddress: http://victoria-metrics-victoria-metrics-single-server.monitorizacion.svc.cluster.local:8428
+      serverAddress: http://vmsingle-vm-stack.monitorizacion.svc.cluster.local:8428
       metricName: traefik_service_requests_total
       query: sum(rate(traefik_service_requests_total{service=~"vaultwarden-service.*"}[5m]))
       threshold: '1'
