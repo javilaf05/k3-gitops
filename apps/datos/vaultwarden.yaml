@@ -26,7 +26,7 @@ metadata:
   name: vaultwarden
   namespace: default
 spec:
-  selectors:
+  selector:
     app: vaultwarden
   ports:
   - port: 80
@@ -55,4 +55,5 @@ spec:
               number: 80
   tls:
   - hosts:
+    - vaultwarden.jlc.local
     - vaultwarden.jlc.local
