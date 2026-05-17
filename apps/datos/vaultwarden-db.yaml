@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Object
+metadata:
+  name: vaultwarden-db-object
+  namespace: default
+spec:
+  cluster:
+    name: homelab-db-cluster
+  object:
+    name: vaultwarden
+    owner: vaultwarden
+    type: database
