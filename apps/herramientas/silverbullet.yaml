@@ -1,3 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: silverbullet-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,5 +43,38 @@ spec:
       - name: space-data
         persistentVolumeClaim:
           claimName: silverbullet-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: silverbullet-service
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: silverbullet
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: silverbullet-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - host: silverbullet.jlc.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: silverbullet-service
             port:
+              number: 80
               number: 80
