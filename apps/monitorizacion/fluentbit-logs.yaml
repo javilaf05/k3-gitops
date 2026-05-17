@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: monitorizacion
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush        1
+        Log_Level    info
+        Daemon       off
+
+    [INPUT]
+        Name         tail
+        Path         /var/log/pods/*/*/*.log
+        Parser       docker
+        Tag          kube.*
+
+    [OUTPUT]
+        Name         opentelemetry
+        Match        *
+        Host         vmsingle-vm-stack.monitorizacion.svc.cluster.local
+        Port         4318
+        Metrics_URI  /opentelemetry/v1/metrics
+        Logs_URI     /opentelemetry/v1/logs
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluent-bit
+  namespace: monitorizacion
+spec:
+  selector:
+    matchLabels:
+      app: fluent-bit
+  template:
+    metadata:
+      labels:
+        app: fluent-bit
+    spec:
+      containers:
+      - name: fluent-bit
+        image: cr.fluentbit.io/fluent/fluent-bit:3.0
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log/pods
+          readOnly: true
+        - name: config
+          mountPath: /fluent-bit/etc/
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log/pods
+      - name: config
+        configMap:
+          name: fluent-bit-config
