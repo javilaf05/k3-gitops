@@ -22,3 +22,7 @@ spec:
           key: AWS_SECRET_ACCESS_KEY
       wal:
         compression: gzip
+        
+    retentionPolicy:
+      keep:
+        lessThan: "7d"
