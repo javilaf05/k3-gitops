@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: vaultwarden
   namespace: default
-  labels:
-    app.kubernetes.io/name: vaultwarden
 spec:
   replicas: 1
   selector:
@@ -21,6 +19,14 @@ spec:
         ports:
         - containerPort: 80
           name: http
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: vaultwarden-db-app
+              key: uri
+        - name: SIGNUPS_ALLOWED
+          value: "true"  
 ---
 apiVersion: v1
 kind: Service
@@ -28,24 +34,21 @@ metadata:
   name: vaultwarden-service
   namespace: default
 spec:
-  selector:
-    # Vinculación directa con el selector del Pod
-    app: vaultwarden
   ports:
   - port: 80
     targetPort: 80
     protocol: TCP
     name: http
+  selector:
+    app: vaultwarden
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: vaultwarden-ingress-v3 # Avanzamos de versión para romper la caché de Traefik
+  name: vaultwarden-ingress
   namespace: default
   annotations:
-    # --- ANOTACIÓN CLAVE PARA TRAEFIK ---
-    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-    traefik.ingress.kubernetes.io/router.clientaccepttimeout: "5m"
+    kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
   - host: vaultwarden.jlc.local
