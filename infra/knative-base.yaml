@@ -22,7 +22,7 @@ spec:
         runAsNonRoot: false
       containers:
       - name: knative-operator
-        image: ko.local/github.com/knative/operator/cmd/operator:v1.13.0
+        image: quay.io/knative/operator:v1.13.0
         securityContext:
           privileged: true
           capabilities:
