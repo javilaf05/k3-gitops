@@ -1,0 +1,24 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMLogs
+metadata:
+  name: vmlogs-tfg
+  namespace: monitorizacion
+spec:
+  retentionPeriod: "7d"
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "local-path" 
+        resources:
+          requests:
+            storage: 2Gi
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMNodeScrape
+metadata:
+  name: vmlogs-k3s-scrape
+  namespace: monitorizacion
+spec:
+  selector:
+    matchLabels: {}
