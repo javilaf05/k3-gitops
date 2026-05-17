@@ -61,3 +61,6 @@ spec:
             name: vaultwarden-service
             port:
               number: 80
+  tls:
+  - hosts:
+    - vaultwarden.jlc.local
