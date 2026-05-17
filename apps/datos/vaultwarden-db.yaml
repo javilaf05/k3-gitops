@@ -1,12 +1,11 @@
 apiVersion: postgresql.cnpg.io/v1
-kind: Object
+kind: Cluster
 metadata:
-  name: vaultwarden-db-object
+  name: vaultwarden-db
   namespace: default
 spec:
-  cluster:
-    name: homelab-db-cluster
-  object:
-    name: vaultwarden
-    owner: vaultwarden
-    type: database
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  storage:
+    size: 2Gi
+    storageClass: local-path
