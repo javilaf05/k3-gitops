@@ -10,4 +10,4 @@ spec:
     interval: 30s
   selector:
     matchLabels:
-      app.kubernetes.io/name: uptime-kuma
+      app: uptime-kuma
