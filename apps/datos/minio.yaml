@@ -35,7 +35,6 @@ spec:
         - --console-address
         - ":9001"
         env:
-        # Credenciales de acceso por defecto (puedes cambiarlas luego)
         - name: MINIO_ROOT_USER
           value: "minioadmin"
         - name: MINIO_ROOT_PASSWORD
