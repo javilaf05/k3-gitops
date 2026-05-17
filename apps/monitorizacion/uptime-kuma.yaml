@@ -1,21 +1,10 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: uptime-kuma-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 2Gi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: uptime-kuma
-  namespace: default
+  namespace: monitorizacion
+  labels:
+    app: uptime-kuma
 spec:
   replicas: 1
   selector:
@@ -32,22 +21,40 @@ spec:
         ports:
         - containerPort: 3001
           name: http
-        volumeMounts:
-        - name: uptime-kuma-data
-          mountPath: /app/data
-      volumes:
-      - name: uptime-kuma-data
-        persistentVolumeClaim:
-          claimName: uptime-kuma-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: uptime-kuma-service
-  namespace: default
+  namespace: monitorizacion
 spec:
+  selector:
+    app: uptime-kuma
   ports:
   - port: 80
     targetPort: 3001
-  selector:
-    app: uptime-kuma
+    protocol: TCP
+    name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: uptime-kuma-ingress
+  namespace: monitorizacion
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - host: uptime.jlc.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: uptime-kuma-service
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - uptime.jlc.local
