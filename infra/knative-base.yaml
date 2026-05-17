@@ -18,6 +18,12 @@ spec:
       labels:
         dash: knative-operator
     spec:
+      securityContext:
+        runAsNonRoot: false
       containers:
       - name: knative-operator
         image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.13.0
+        securityContext:
+          privileged: true
+          capabilities:
+            add: ["NET_ADMIN", "SYS_ADMIN"]
