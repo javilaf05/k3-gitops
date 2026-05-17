@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: silverbullet-pvc
+  name: trilium-pvc
   namespace: default
 spec:
   accessModes:
@@ -14,67 +14,62 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: silverbullet
+  name: trilium
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: silverbullet
+      app: trilium
   template:
     metadata:
       labels:
-        app: silverbullet
+        app: trilium
     spec:
       containers:
-      - name: silverbullet
-        image: quay.io/silverbulletdb/silverbullet:latest
-        command: ["silverbullet", "listen", "--port", "3000", "/space"]
+      - name: trilium
+        image: zadam/trilium:0.63-latest
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
           name: http
-        env:
-        - name: PURGE_EVERYWHERE
-          value: "true"
         volumeMounts:
-        - name: space-data
-          mountPath: /space
+        - name: trilium-data
+          mountPath: /home/node/trilium-data
       volumes:
-      - name: space-data
+      - name: trilium-data
         persistentVolumeClaim:
-          claimName: silverbullet-pvc
+          claimName: trilium-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: silverbullet-service
+  name: trilium-service
   namespace: default
 spec:
   ports:
   - port: 80
-    targetPort: 3000
+    targetPort: 8080
     protocol: TCP
     name: http
   selector:
-    app: silverbullet
+    app: trilium
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: silverbullet-ingress
+  name: trilium-ingress
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-  - host: silverbullet.jlc.local
+  - host: wiki.jlc.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: silverbullet-service
+            name: trilium-service
             port:
-              number: 80
               number: 80
