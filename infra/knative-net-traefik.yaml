@@ -18,6 +18,10 @@ spec:
       labels:
         app: knative-net-traefik
     spec:
+      securityContext:
+        runAsNonRoot: false
       containers:
       - name: knative-net-traefik
         image: gcr.io/knative-releases/knative.dev/net-traefik/cmd/controller:v1.13.0
+        securityContext:
+          privileged: true
