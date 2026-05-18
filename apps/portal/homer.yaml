@@ -56,14 +56,14 @@ data:
       theme: "default"
     
     services:
-      - name: "Infraestructura"
+      - name: "Infraestructura & Control"
         icon: "fas check-double"
         items:
           - name: "ArgoCD"
-            logo: "https://raw.githubusercontent.com/cncf/artwork/main/projects/argo/icon/color/argo-icon-color.png"
             subtitle: "Despliegue GitOps"
             tag: "infra"
             url: "http://argo.jlc.local"
+            logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTUuNiAxMDUuNyI+PHBhdGggZmlsbD0iI0M4RTZGNSIgZD0iTTU3LjggMEwuMyAzMy4ydjY2LjVsNTcuNSA2LjIgNTcuOC02LjJWMzMuMkw1Ny44IDB6Ii8+PHBhdGggZmlsbD0iIzI1QzlENCIgZD0iTTU3LjggMTkuN0wyMi4zIDQxLjF2NDEuNWwzNS41IDMuOCAzNS41LTMuOFY0MS4xTDU3LjggMTkuN3oiL001Ny44IDM0LjNsMjIuOCAxMy43djI3LjRMMTkuNyA2NS40VjQ4TDU3LjggMzQuM3oiLz48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNNTcuOCA0Ny4zbC0xNCA4LjR2MTYuOGwxNCAxLjUgMTQtMS41VjU1LjdsLTE0LTguNHoiLz48L3N2Zz4="
 
           - name: "Homer"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
@@ -71,7 +71,7 @@ data:
             tag: "infra"
             url: "http://homer.jlc.local"
 
-      - name: "Servicios"
+      - name: "Servicios IT"
         icon: "fas network-wired"
         items:
           - name: "Nextcloud"
