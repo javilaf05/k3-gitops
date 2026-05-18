@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      containers:
+      - name: nextcloud
+        image: nextcloud:stable-alpine
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: POSTGRES_HOST
+          value: postgres-cluster-rw.default.svc.cluster.local
+        - name: POSTGRES_DB
+          value: nextcloud
+        - name: POSTGRES_USER
+          value: nextcloud_user
+        - name: POSTGRES_PASSWORD
+          value: nextcloud_password 
+        - name: OBJECTSTORE_S3_HOST
+          value: minio-service.default.svc.cluster.local
+        - name: OBJECTSTORE_S3_PORT
+          value: "9000"
+        - name: OBJECTSTORE_S3_BUCKET
+          value: nextcloud-data
+        - name: OBJECTSTORE_S3_KEY
+          value: minio_user_tfg
+        - name: OBJECTSTORE_S3_SECRET
+          value: minio_password_tfg
+        - name: OBJECTSTORE_S3_SSL
+          value: "false"
+        - name: OBJECTSTORE_S3_REGION
+          value: us-east-1
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud-service
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: nextcloud
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud-ingress
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+  - host: nextcloud.local 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nextcloud-service
+            port:
+              number: 80
