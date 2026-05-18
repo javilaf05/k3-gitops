@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collabora
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collabora
+  template:
+    metadata:
+      labels:
+        app: collabora
+    spec:
+      containers:
+        - name: collabora
+          image: collabora/code:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9980
+              name: http
+          env:
+            - name: domain
+              value: "nextcloud\\.jlc\\.local"
+            - name: username
+              value: "admin"
+            - name: password
+              value: "TuContrasenaSeguraCODE"
+            - name: extra_params
+              value: "--o:ssl.enable=false --o:ssl.termination=true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: collabora-service
+  namespace: default
+spec:
+  ports:
+    - port: 9980
+      targetPort: 9980
+      name: http
+  selector:
+    app: collabora
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: collabora-ingress
+  namespace: default
+spec:
+  entryPoints:
+    - websecure  
+  routes:
+    - match: Host(`collabora.jlc.local`)
+      kind: Rule
+      services:
+        - name: collabora-service
+          port: 9980
+  tls:
+    secretName: jlc-local-tls-cert
