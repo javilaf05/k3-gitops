@@ -56,30 +56,32 @@ data:
       theme: "default"
     
     services:
-      - name: "Infraestructura & Control"
-        icon: "fas fa-network-wired"
-        items:
-          - name: "ArgoCD"
-            icon: "fas fa-ship"
-            subtitle: "Despliegue GitOps"
-            url: "http://argocd.jlc.local"
-          - name: "MinIO Object Store"
-            icon: "fas fa-hdd"
-            subtitle: "Almacenamiento de Backups"
-            url: "http://minio.jlc.local"
+  - name: "Infraestructura & Control"
+    icon: "fas check-double" 
+    items:
+      - name: "ArgoCD"
+        logo: "assets/tools/argocd.png" 
+        subtitle: "Despliegue GitOps"
+        tag: "infra"
+        url: "http://argocd.jlc.local" 
 
-      - name: "Bases de Datos"
-        icon: "fas fa-database"
-        items:
-          - name: "Postgres Cluster"
-            icon: "fas fa-server"
-            subtitle: "CloudNativePG (homelab-db)"
-            url: "#"
+      - name: "Homer"
+        logo: "assets/tools/homer.png"
+        subtitle: "Este Dashboard"
+        tag: "infra"
+        url: "http://homer.jlc.local"
 
-      - name: "Servicios IT"
-        icon: "fas fa-cubes"
-        items:
-          - name: "Homer"
-            icon: "fas fa-home"
-            subtitle: "Este Dashboard"
-            url: "http://homer.jlc.local"
+  - name: "Servicios IT"
+    icon: "fas network-wired"
+    items:
+      - name: "Nextcloud"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png" 
+        subtitle: "Nube Privada & Almacenamiento"
+        tag: "app"
+        url: "http://nextcloud.jlc.local"
+
+      - name: "Trilium Notes"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/trilium-notes.png"
+        subtitle: "Base de Conocimiento Personal"
+        tag: "app"
+        url: "http://trilium.jlc.local" 
