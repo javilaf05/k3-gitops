@@ -15,17 +15,10 @@ spec:
     spec:
       containers:
       - name: nextcloud
-        image: ghcr.io/linuxserver/nextcloud:latest
+        image: nextcloud:latest # Imagen oficial nativa para el puerto 80
         ports:
         - containerPort: 80
           name: http
-        env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "1000"
-        - name: TZ
-          value: Europe/Madrid
         resources:
           requests:
             cpu: "200m"
@@ -41,8 +34,8 @@ metadata:
   namespace: default
 spec:
   ports:
-  - port: 80        # El servicio escucha en el 80
-    targetPort: http # Apunta al puerto 80 del contenedor
+  - port: 80
+    targetPort: http
     protocol: TCP
   selector:
     app: nextcloud
@@ -67,4 +60,3 @@ spec:
             name: nextcloud-service
             port:
               number: 80
-              number: 443
