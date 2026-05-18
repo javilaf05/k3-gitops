@@ -20,7 +20,6 @@ spec:
         ports:
         - containerPort: 3000
           name: http
-        command: ["silverbullet", "/space"]
         resources:
           requests:
             cpu: "100m"
@@ -35,50 +34,3 @@ spec:
       - name: silverbullet-space
         persistentVolumeClaim:
           claimName: silverbullet-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: silverbullet-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path 
-  resources:
-    requests:
-      storage: 2Gi 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: silverbullet-service
-  namespace: default
-spec:
-  ports:
-  - port: 3000
-    targetPort: http
-    protocol: TCP
-  selector:
-    app: silverbullet
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: silverbullet-ingress
-  namespace: default
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-spec:
-  rules:
-  - host: notes.jlc.local 
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: silverbullet-service
-            port:
-              number: 3000
