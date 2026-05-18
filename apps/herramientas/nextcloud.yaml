@@ -5,6 +5,7 @@ metadata:
   namespace: default
 spec:
   replicas: 1
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       app: nextcloud
@@ -15,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nextcloud
-        image: nextcloud:latest # Imagen oficial nativa para el puerto 80
+        image: nextcloud:latest
         ports:
         - containerPort: 80
           name: http
