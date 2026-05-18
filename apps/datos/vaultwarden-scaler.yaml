@@ -8,7 +8,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: vaultwarden
-  minReplicaCount: 0 
+  minReplicaCount: 1 
   maxReplicaCount: 2   
   cooldownPeriod: 600  
   pollingInterval: 30  
