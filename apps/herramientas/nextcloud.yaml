@@ -90,11 +90,11 @@ metadata:
   name: nextcloud-ingress
   namespace: default
   annotations:
-    kubernetes.io/ingress.class: "traefik" 
+    kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: nextcloud.jlc.local
+  - host: nextcloud.jlc.local 
     http:
       paths:
       - path: /
@@ -103,5 +103,4 @@ spec:
           service:
             name: nextcloud-service
             port:
-              number: 80
               number: 80
