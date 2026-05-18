@@ -60,7 +60,7 @@ data:
         icon: "fas check-double"
         items:
           - name: "ArgoCD"
-            logo: "https://artifacthub.io/static/media/argo-icon.svg"
+            logo: "https://dashboardicons.com/wp-content/uploads/argocd.png"
             subtitle: "Despliegue GitOps"
             tag: "infra"
             url: "http://argo.jlc.local"
