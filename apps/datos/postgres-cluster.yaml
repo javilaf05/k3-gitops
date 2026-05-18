@@ -23,9 +23,3 @@ spec:
           key: AWS_SECRET_ACCESS_KEY
     wal:
       compression: gzip
-  bootstrap:
-    initdb:
-      database: app
-      owner: homelab-db-cluster
-      secret:
-        name: nextcloud-db-pass
