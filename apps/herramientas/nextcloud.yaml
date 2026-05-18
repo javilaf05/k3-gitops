@@ -21,6 +21,12 @@ spec:
         - containerPort: 80
           name: http
         env:
+        # Credenciales automáticas para el Administrador Web
+        - name: NEXTCLOUD_ADMIN_USER
+          value: "admin"
+        - name: NEXTCLOUD_ADMIN_PASSWORD
+          value: "HomelabNextcloud2026!" # Usa la clave fuerte que quieras aquí
+        # Conexión directa a CloudNativePG
         - name: POSTGRES_DB
           value: "app"
         - name: POSTGRES_USER
