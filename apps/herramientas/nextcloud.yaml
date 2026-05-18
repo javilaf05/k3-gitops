@@ -13,11 +13,13 @@ spec:
       labels:
         app: nextcloud
     spec:
-      # CONFIGURACIÓN CLAVE: El contenedor que arregla los permisos
+      # CONFIGURACIÓN CORREGIDA: Usamos la misma imagen para evitar el Rate Limit
       initContainers:
       - name: init-permissions
-        image: alpine:latest
+        image: nextcloud:stable-alpine
         command: ["sh", "-c", "chown -R 82:82 /var/www/html"]
+        securityContext:
+          runAsUser: 0 # Forzamos que se ejecute como root temporalmente
         volumeMounts:
         - name: nextcloud-config-html
           mountPath: /var/www/html
