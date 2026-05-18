@@ -13,7 +13,6 @@ spec:
       labels:
         app: nextcloud
     spec:
-      # Init container para asegurar que el volumen compartido tiene los permisos correctos (UID 911 para linuxserver)
       initContainers:
       - name: init-permissions
         image: ghcr.io/linuxserver/nextcloud:latest
@@ -23,14 +22,11 @@ spec:
         volumeMounts:
         - name: nextcloud-config
           mountPath: /config
-      
       containers:
       - name: nextcloud
-        image: ghcr.io/linuxserver/nextcloud:latest # Cambiado a GitHub Registry (Cero Rate Limits)
+        image: ghcr.io/linuxserver/nextcloud:latest
         ports:
-        - containerPort: 443
-          name: https
-        - containerPort: 80
+        - containerPort: 8000
           name: http
         env:
         - name: PUID
@@ -39,7 +35,6 @@ spec:
           value: "911"
         - name: TZ
           value: Europe/Madrid
-        # Conexión a tu CloudNativePG
         - name: POSTGRES_HOST
           value: postgres-cluster-rw.default.svc.cluster.local
         - name: POSTGRES_DB
@@ -48,7 +43,6 @@ spec:
           value: nextcloud_user
         - name: POSTGRES_PASSWORD
           value: nextcloud_password
-        # Conexión a tu Bucket de MinIO ya existente
         - name: OBJECTSTORE_S3_HOST
           value: minio-service.default.svc.cluster.local
         - name: OBJECTSTORE_S3_PORT
@@ -73,7 +67,6 @@ spec:
         volumeMounts:
         - name: nextcloud-config
           mountPath: /config
-      
       volumes:
       - name: nextcloud-config
         emptyDir: {}
@@ -86,7 +79,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: http
+    targetPort: 8000
     protocol: TCP
   selector:
     app: nextcloud
@@ -97,10 +90,11 @@ metadata:
   name: nextcloud-ingress
   namespace: default
   annotations:
+    kubernetes.io/ingress.class: "traefik" 
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: nextcloud.local
+  - host: nextcloud.jlc.local
     http:
       paths:
       - path: /
@@ -109,4 +103,5 @@ spec:
           service:
             name: nextcloud-service
             port:
+              number: 80
               number: 80
