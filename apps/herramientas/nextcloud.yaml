@@ -17,8 +17,8 @@ spec:
       - name: nextcloud
         image: ghcr.io/linuxserver/nextcloud:latest
         ports:
-        - containerPort: 80
-          name: http
+        - containerPort: 443
+          name: https
         env:
         - name: PUID
           value: "1000"
@@ -41,8 +41,8 @@ metadata:
   namespace: default
 spec:
   ports:
-  - port: 80
-    targetPort: http
+  - port: 443
+    targetPort: https
     protocol: TCP
   selector:
     app: nextcloud
@@ -55,6 +55,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/service.serverstransport: "insecureskipverify@file"
 spec:
   rules:
   - host: nextcloud.jlc.local
@@ -66,4 +67,4 @@ spec:
           service:
             name: nextcloud-service
             port:
-              number: 80
+              number: 443
