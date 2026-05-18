@@ -47,7 +47,7 @@ metadata:
   namespace: default
 data:
   config.yml: |
-    title: "Homelab JLC - TFG"
+    title: "Homelab JLC"
     subtitle: "Panel de Control de Infraestructura"
     columns: "3"
     connectivityTest: true
@@ -56,7 +56,7 @@ data:
       theme: "default"
     
     services:
-      - name: "Infraestructura & Control"
+      - name: "Infraestructura"
         icon: "fas check-double"
         items:
           - name: "ArgoCD"
@@ -71,7 +71,7 @@ data:
             tag: "infra"
             url: "http://homer.jlc.local"
 
-      - name: "Servicios IT"
+      - name: "Servicios"
         icon: "fas network-wired"
         items:
           - name: "Nextcloud"
