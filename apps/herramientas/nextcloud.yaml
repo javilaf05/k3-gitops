@@ -13,24 +13,33 @@ spec:
       labels:
         app: nextcloud
     spec:
-      # CONFIGURACIÓN CORREGIDA: Usamos la misma imagen para evitar el Rate Limit
+      # Init container para asegurar que el volumen compartido tiene los permisos correctos (UID 911 para linuxserver)
       initContainers:
       - name: init-permissions
-        image: nextcloud:stable-alpine
-        command: ["sh", "-c", "chown -R 82:82 /var/www/html"]
+        image: ghcr.io/linuxserver/nextcloud:latest
+        command: ["sh", "-c", "chown -R 911:911 /config"]
         securityContext:
-          runAsUser: 0 # Forzamos que se ejecute como root temporalmente
+          runAsUser: 0
         volumeMounts:
-        - name: nextcloud-config-html
-          mountPath: /var/www/html
+        - name: nextcloud-config
+          mountPath: /config
       
       containers:
       - name: nextcloud
-        image: nextcloud:stable-alpine
+        image: ghcr.io/linuxserver/nextcloud:latest # Cambiado a GitHub Registry (Cero Rate Limits)
         ports:
+        - containerPort: 443
+          name: https
         - containerPort: 80
           name: http
         env:
+        - name: PUID
+          value: "911"
+        - name: PGID
+          value: "911"
+        - name: TZ
+          value: Europe/Madrid
+        # Conexión a tu CloudNativePG
         - name: POSTGRES_HOST
           value: postgres-cluster-rw.default.svc.cluster.local
         - name: POSTGRES_DB
@@ -39,6 +48,7 @@ spec:
           value: nextcloud_user
         - name: POSTGRES_PASSWORD
           value: nextcloud_password
+        # Conexión a tu Bucket de MinIO ya existente
         - name: OBJECTSTORE_S3_HOST
           value: minio-service.default.svc.cluster.local
         - name: OBJECTSTORE_S3_PORT
@@ -61,11 +71,11 @@ spec:
             cpu: "1"
             memory: "512Mi"
         volumeMounts:
-        - name: nextcloud-config-html
-          mountPath: /var/www/html
+        - name: nextcloud-config
+          mountPath: /config
       
       volumes:
-      - name: nextcloud-config-html
+      - name: nextcloud-config
         emptyDir: {}
 ---
 apiVersion: v1
