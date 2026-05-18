@@ -60,13 +60,13 @@ data:
         icon: "fas check-double"
         items:
           - name: "ArgoCD"
-            logo: "assets/tools/argocd.png"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argocd.png"
             subtitle: "Despliegue GitOps"
             tag: "infra"
             url: "http://argo.jlc.local"
 
           - name: "Homer"
-            logo: "assets/tools/homer.png"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
             subtitle: "Este Dashboard"
             tag: "infra"
             url: "http://homer.jlc.local"
@@ -81,7 +81,7 @@ data:
             url: "http://nextcloud.jlc.local"
 
           - name: "Trilium Notes"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/trilium-notes.png"
+            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
             subtitle: "Base de Conocimiento Personal"
             tag: "app"
             url: "http://trilium.jlc.local"
