@@ -13,50 +13,19 @@ spec:
       labels:
         app: nextcloud
     spec:
-      initContainers:
-      - name: init-permissions
-        image: ghcr.io/linuxserver/nextcloud:latest
-        command: ["sh", "-c", "chown -R 911:911 /config"]
-        securityContext:
-          runAsUser: 0
-        volumeMounts:
-        - name: nextcloud-config
-          mountPath: /config
       containers:
       - name: nextcloud
         image: ghcr.io/linuxserver/nextcloud:latest
         ports:
-        - containerPort: 443
-          name: https
+        - containerPort: 80
+          name: http
         env:
         - name: PUID
-          value: "911"
+          value: "1000"
         - name: PGID
-          value: "911"
+          value: "1000"
         - name: TZ
           value: Europe/Madrid
-        - name: POSTGRES_HOST
-          value: homelab-db-cluster-rw.default.svc.cluster.local
-        - name: POSTGRES_DB
-          value: nextcloud
-        - name: POSTGRES_USER
-          value: nextcloud_user
-        - name: POSTGRES_PASSWORD
-          value: nextcloud_password
-        - name: OBJECTSTORE_S3_HOST
-          value: minio-service.default.svc.cluster.local
-        - name: OBJECTSTORE_S3_PORT
-          value: "9000"
-        - name: OBJECTSTORE_S3_BUCKET
-          value: nextcloud-data
-        - name: OBJECTSTORE_S3_KEY
-          value: minio_user_tfg
-        - name: OBJECTSTORE_S3_SECRET
-          value: minio_password_tfg
-        - name: OBJECTSTORE_S3_SSL
-          value: "false"
-        - name: OBJECTSTORE_S3_REGION
-          value: us-east-1
         resources:
           requests:
             cpu: "200m"
@@ -64,12 +33,6 @@ spec:
           limits:
             cpu: "1"
             memory: "512Mi"
-        volumeMounts:
-        - name: nextcloud-config
-          mountPath: /config
-      volumes:
-      - name: nextcloud-config
-        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -78,8 +41,8 @@ metadata:
   namespace: default
 spec:
   ports:
-  - port: 443
-    targetPort: https
+  - port: 80
+    targetPort: http
     protocol: TCP
   selector:
     app: nextcloud
@@ -92,8 +55,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    # CORRECCIÓN: Sintaxis limpia y oficial para Traefik
-    traefik.ingress.kubernetes.io/service.serverstransport: "insecureskipverify@file"
 spec:
   rules:
   - host: nextcloud.jlc.local
@@ -105,4 +66,4 @@ spec:
           service:
             name: nextcloud-service
             port:
-              number: 443
+              number: 80
