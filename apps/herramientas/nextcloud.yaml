@@ -24,17 +24,17 @@ spec:
         - name: NEXTCLOUD_ADMIN_USER
           value: "admin"
         - name: NEXTCLOUD_ADMIN_PASSWORD
-          value: "HomelabNextcloud2026!" 
+          value: "HomelabNextcloud2026!" # Tu clave de la web
         - name: POSTGRES_DB
-          value: "app"
+          value: "nextcloud_prod"        # Una base de datos nueva para que la cree limpia
         - name: POSTGRES_USER
-          value: "homelab-db-cluster"
+          value: "postgres"              # Entramos como superusuario maestro
         - name: POSTGRES_HOST
           value: "homelab-db-cluster-rw.default.svc.cluster.local"
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: homelab-db-cluster-app
+              name: homelab-db-cluster-app # Usamos el secreto maestro real
               key: password
         resources:
           requests:
