@@ -13,6 +13,15 @@ spec:
       labels:
         app: nextcloud
     spec:
+      # CONFIGURACIÓN CLAVE: El contenedor que arregla los permisos
+      initContainers:
+      - name: init-permissions
+        image: alpine:latest
+        command: ["sh", "-c", "chown -R 82:82 /var/www/html"]
+        volumeMounts:
+        - name: nextcloud-config-html
+          mountPath: /var/www/html
+      
       containers:
       - name: nextcloud
         image: nextcloud:stable-alpine
@@ -20,7 +29,6 @@ spec:
         - containerPort: 80
           name: http
         env:
-        # Conexión a tu CloudNativePG (Base de datos externa para ahorrar recursos)
         - name: POSTGRES_HOST
           value: postgres-cluster-rw.default.svc.cluster.local
         - name: POSTGRES_DB
@@ -29,7 +37,6 @@ spec:
           value: nextcloud_user
         - name: POSTGRES_PASSWORD
           value: nextcloud_password
-        # Conexión a tu Bucket de MinIO ya existente
         - name: OBJECTSTORE_S3_HOST
           value: minio-service.default.svc.cluster.local
         - name: OBJECTSTORE_S3_PORT
@@ -51,11 +58,10 @@ spec:
           limits:
             cpu: "1"
             memory: "512Mi"
-        # SOLUCIÓN AL ERROR: Montamos el volumen en la ruta crítica de Nextcloud
         volumeMounts:
         - name: nextcloud-config-html
           mountPath: /var/www/html
-      # Definimos el volumen efímero para evitar bloqueos de almacenamiento local
+      
       volumes:
       - name: nextcloud-config-html
         emptyDir: {}
