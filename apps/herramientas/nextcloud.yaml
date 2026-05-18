@@ -20,6 +20,18 @@ spec:
         ports:
         - containerPort: 80
           name: http
+        env:
+        - name: POSTGRES_DB
+          value: "app"
+        - name: POSTGRES_USER
+          value: "homelab-db-cluster"
+        - name: POSTGRES_HOST
+          value: "homelab-db-cluster-rw.default.svc.cluster.local"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: homelab-db-cluster-app
+              key: password
         resources:
           requests:
             cpu: "200m"
