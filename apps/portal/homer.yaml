@@ -62,7 +62,7 @@ data:
           - name: "ArgoCD"
             subtitle: "Despliegue GitOps"
             tag: "infra"
-            url: "http://argo.jlc.local"
+            url: "http://argocd.jlc.local"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argo-cd.png"
 
           - name: "Homer"
