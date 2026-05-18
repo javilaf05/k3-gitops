@@ -20,6 +20,7 @@ spec:
         - containerPort: 80
           name: http
         env:
+        # Conexión a tu CloudNativePG (Base de datos externa para ahorrar recursos)
         - name: POSTGRES_HOST
           value: postgres-cluster-rw.default.svc.cluster.local
         - name: POSTGRES_DB
@@ -27,7 +28,8 @@ spec:
         - name: POSTGRES_USER
           value: nextcloud_user
         - name: POSTGRES_PASSWORD
-          value: nextcloud_password 
+          value: nextcloud_password
+        # Conexión a tu Bucket de MinIO ya existente
         - name: OBJECTSTORE_S3_HOST
           value: minio-service.default.svc.cluster.local
         - name: OBJECTSTORE_S3_PORT
@@ -49,6 +51,14 @@ spec:
           limits:
             cpu: "1"
             memory: "512Mi"
+        # SOLUCIÓN AL ERROR: Montamos el volumen en la ruta crítica de Nextcloud
+        volumeMounts:
+        - name: nextcloud-config-html
+          mountPath: /var/www/html
+      # Definimos el volumen efímero para evitar bloqueos de almacenamiento local
+      volumes:
+      - name: nextcloud-config-html
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -72,7 +82,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: nextcloud.local 
+  - host: nextcloud.local
     http:
       paths:
       - path: /
