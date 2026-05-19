@@ -22,7 +22,9 @@ spec:
               name: http
           env:
             - name: domain
-              value: ".*\\.jlc\\.local" 
+              value: "nextcloud\\.jlc\\.local"
+            - name: aliasgroup1
+              value: "http://nextcloud.jlc.local"
             - name: username
               value: "admin"
             - name: password
