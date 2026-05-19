@@ -15,11 +15,9 @@ spec:
           enabled: true
         bouncer:
           enabled: true
-          # Esto integra CrowdSec con tu Traefik
           kind: traefik
           traefik:
             enabled: true
-        # Configuración para que el agente lea los logs de Traefik
         acquisition:
           - source: docker
             container_name:
