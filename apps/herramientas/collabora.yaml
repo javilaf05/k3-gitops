@@ -26,7 +26,7 @@ spec:
             - name: username
               value: "admin"
             - name: password
-              value: "TuContrasenaSeguraCODE"
+              value: "1234"
             - name: extra_params
               value: "--o:ssl.enable=false --o:ssl.termination=false"
 ---
@@ -50,12 +50,10 @@ metadata:
   namespace: default
 spec:
   entryPoints:
-    - websecure  
+    - web
   routes:
     - match: Host(`collabora.jlc.local`)
       kind: Rule
       services:
         - name: collabora-service
           port: 9980
-  tls:
-    secretName: jlc-local-tls-cert
