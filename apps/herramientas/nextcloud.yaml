@@ -70,10 +70,13 @@ kind: Ingress
 metadata:
   name: nextcloud-ingress
   namespace: default
+  annotations:
+    # Eliminamos cualquier rastro de traefik
+    kubernetes.io/ingress.class: "tailscale" 
 spec:
   ingressClassName: tailscale
   rules:
-  - host: nextcloud.jlc.local
+  - host: "*"  # <--- EL CAMBIO CRÍTICO: El asterisco acepta cualquier host
     http:
       paths:
       - path: /
