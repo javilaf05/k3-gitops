@@ -22,11 +22,13 @@ spec:
               name: http
           env:
             - name: domain
-              value: "nextcloud\\.jlc\\.local"
+              value: "nextcloud.jlc.local"
+            - name: aliasgroup1
+              value: "http://nextcloud.jlc.local:80"
             - name: username
               value: "admin"
             - name: password
-              value: "1234"
+              value: "TuContrasenaSeguraCODE"
             - name: extra_params
               value: "--o:ssl.enable=false --o:ssl.termination=false"
 ---
