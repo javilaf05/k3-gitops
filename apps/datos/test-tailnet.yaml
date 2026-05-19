@@ -4,5 +4,6 @@ metadata:
   name: test-tailnet
   namespace: tailscale
 spec:
-  # Esto es un ejemplo, el operador intentará procesarlo
-  # y registrará un error o una acción en los logs
+  # Los recursos de Tailnet requieren al menos una definición de proxy o configuración
+  # Pero para probar que el operador lo "toma", esto suele bastar:
+  hostname: test-node
