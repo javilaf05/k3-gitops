@@ -10,11 +10,14 @@ spec:
     repoURL: https://pkgs.tailscale.com/helmcharts
     targetRevision: 1.68.0
     helm:
-      values: |
-        operatorConfig:
-          apiServerProxyConfig:
-            mode: "true"
-            secretName: "operator-oauth"
+        values: |
+          operatorConfig:
+            apiServerProxyConfig:
+              mode: "true"
+              secretName: "operator-oauth"
+          # Intenta forzar el borrado de cualquier override añadiendo esto:
+          command: []
+          args: []
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale
