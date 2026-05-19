@@ -13,6 +13,10 @@ spec:
       labels:
         app: collabora
     spec:
+      hostAliases:
+      - ip: "192.168.164.200"  
+        hostnames:
+        - "nextcloud.jlc.local"
       containers:
         - name: collabora
           image: collabora/code:latest
