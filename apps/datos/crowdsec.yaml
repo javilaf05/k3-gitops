@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://crowdsecurity.github.io/helm-charts
-    targetRevision: main
+    targetRevision: 0.13.0
     chart: crowdsec
     helm:
       values: |
