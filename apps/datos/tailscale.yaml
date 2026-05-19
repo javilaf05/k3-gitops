@@ -6,9 +6,10 @@ metadata:
 spec:
   project: default
   source:
-  chart: tailscale-operator
-  repoURL: https://pkgs.tailscale.com/helmcharts
-  helm:
+    repoURL: https://pkgs.tailscale.com/helmcharts
+    targetRevision: 1.96.5
+    chart: tailscale-operator
+    helm:
       values: |
         operatorConfig:
           apiServerProxyConfig:
