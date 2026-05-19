@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crowdsec
+  namespace: argocd 
+spec:
+  project: default
+  source:
+    repoURL: https://crowdsecurity.github.io/helm-charts
+    targetRevision: 0.12.0 
+    chart: crowdsec
+    helm:
+      values: |
+        agent:
+          enabled: true
+        bouncer:
+          enabled: true
+          # Esto integra CrowdSec con tu Traefik
+          kind: traefik
+          traefik:
+            enabled: true
+        # Configuración para que el agente lea los logs de Traefik
+        acquisition:
+          - source: docker
+            container_name:
+              - traefik
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
