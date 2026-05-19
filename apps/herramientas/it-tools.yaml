@@ -46,16 +46,12 @@ kind: IngressRoute
 metadata:
   name: it-tools-ingress
   namespace: default
-  annotations:
-    cert-manager.io/cluster-issuer: "local-ca-issuer"
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`it-tools.jlc.local`)
       kind: Rule
       services:
         - name: it-tools-service
           port: 80
-  tls:
-    secretName: it-tools-tls
