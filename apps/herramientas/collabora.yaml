@@ -28,7 +28,7 @@ spec:
             - name: password
               value: "TuContrasenaSeguraCODE"
             - name: extra_params
-              value: "--o:ssl.enable=false --o:ssl.termination=true"
+              value: "--o:ssl.enable=false --o:ssl.termination=false"
 ---
 apiVersion: v1
 kind: Service
