@@ -1,9 +1,0 @@
-apiVersion: tailscale.com/v1alpha1
-kind: Tailnet
-metadata:
-  name: test-tailnet
-  namespace: tailscale
-spec:
-  # Los recursos de Tailnet requieren al menos una definición de proxy o configuración
-  # Pero para probar que el operador lo "toma", esto suele bastar:
-  hostname: test-node
