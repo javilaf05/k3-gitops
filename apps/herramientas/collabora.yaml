@@ -21,16 +21,12 @@ spec:
             - containerPort: 9980
               name: http
           env:
-            - name: domain
-              value: "nextcloud\\.jlc\\.local"
-            - name: aliasgroup1
-              value: "http://nextcloud.jlc.local"
             - name: username
               value: "admin"
             - name: password
               value: "1234"
             - name: extra_params
-              value: "--o:ssl.enable=false --o:ssl.termination=false"
+              value: "--o:ssl.enable=false --o:ssl.termination=false --o:storage.wopi.host=nextcloud.jlc.local"
 ---
 apiVersion: v1
 kind: Service
