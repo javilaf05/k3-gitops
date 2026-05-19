@@ -26,7 +26,7 @@ spec:
             - name: password
               value: "1234"
             - name: extra_params
-              value: "--o:ssl.enable=false --o:ssl.termination=false --o:storage.wopi.host=nextcloud.jlc.local"
+              value: "--o:ssl.enable=false --o:ssl.termination=false --o:storage.wopi.host=.*"
 ---
 apiVersion: v1
 kind: Service
