@@ -70,10 +70,8 @@ kind: Ingress
 metadata:
   name: nextcloud-ingress
   namespace: default
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: tailscale
   rules:
   - host: nextcloud.jlc.local
     http:
