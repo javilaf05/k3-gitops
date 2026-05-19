@@ -13,7 +13,8 @@ spec:
         operatorConfig:
           apiServerProxyConfig:
             mode: "true"
-          secretName: "tailscale-auth"
+          clientAuth:
+            secretName: "tailscale-auth"
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale
