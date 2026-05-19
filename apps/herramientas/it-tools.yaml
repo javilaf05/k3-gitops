@@ -1,26 +1,57 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: tailscale
-  namespace: argocd
+  name: it-tools
+  namespace: default
 spec:
-  project: default
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: tailscale 
-  source:
-    repoURL: https://pkgs.tailscale.com/helmcharts
-    targetRevision: 0.20.0
-    chart: tailscale-operator
-    helm:
-      releaseName: tailscale-operator
-      values: |
-        operatorConfig:
-          apiServerProxyConfig:
-            mode: "true"
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+  replicas: 1
+  selector:
+    matchLabels:
+      app: it-tools
+  template:
+    metadata:
+      labels:
+        app: it-tools
+    spec:
+      containers:
+        - name: it-tools
+          image: corentinth/it-tools:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            limits:
+              cpu: "500m"
+              memory: 256Mi
+            requests:
+              cpu: "100m"
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: it-tools-service
+  namespace: default
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+  selector:
+    app: it-tools
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: it-tools-ingress
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`it-tools.jlc.local`)
+      kind: Rule
+      services:
+        - name: it-tools-service
+          port: 80
