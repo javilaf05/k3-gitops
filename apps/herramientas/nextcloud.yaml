@@ -76,8 +76,7 @@ metadata:
 spec:
   ingressClassName: tailscale
   rules:
-  - host: "nextcloud.jlc.local"  # Usa el nombre completo, no "*"
-    http:
+  - http: # Al quitar la línea 'host', esto se vuelve un "catch-all"
       paths:
       - path: /
         pathType: Prefix
