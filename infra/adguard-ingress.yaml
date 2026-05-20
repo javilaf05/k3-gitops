@@ -4,7 +4,7 @@ metadata:
   name: adguard-ingress
   namespace: default
   annotations:
-    traefik.ingress.kubernetes.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
   - host: adguard.jlc.local
