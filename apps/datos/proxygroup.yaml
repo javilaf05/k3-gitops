@@ -4,5 +4,5 @@ metadata:
   name: default
   namespace: tailscale
 spec:
-  # Esto le dice al operador que use este grupo para los Ingress
-  # que no especifiquen un grupo concreto.
+  # Esto evita el error de "null" y define un perfil básico
+  preset: Funnel
