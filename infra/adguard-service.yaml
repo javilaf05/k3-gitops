@@ -4,18 +4,17 @@ metadata:
   name: adguard-service
   namespace: default
 spec:
+  type: NodePort 
   selector:
     app: adguard-home
   ports:
-    - name: ui
-      port: 80         
-      targetPort: 3000 
-      protocol: TCP
     - name: dns-udp
       port: 53
       targetPort: 53
+      nodePort: 30053  
       protocol: UDP
     - name: dns-tcp
       port: 53
       targetPort: 53
+      nodePort: 30053 
       protocol: TCP
