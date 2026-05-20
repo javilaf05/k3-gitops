@@ -7,16 +7,15 @@ spec:
   selector:
     app: adguard-home
   ports:
-    - protocol: UDP
-      port: 53
-      targetPort: 53
-      name: dns-udp
-    - protocol: TCP
-      port: 53
-      targetPort: 53
-      name: dns-tcp
-    - protocol: TCP
+    - name: ui
       port: 80
       targetPort: 80
-      name: ui
-  type: ClusterIP
+      protocol: TCP
+    - name: dns-udp
+      port: 53
+      targetPort: 53
+      protocol: UDP
+    - name: dns-tcp
+      port: 53
+      targetPort: 53
+      protocol: TCP
