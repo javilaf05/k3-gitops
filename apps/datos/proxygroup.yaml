@@ -4,6 +4,6 @@ metadata:
   name: default
   namespace: tailscale
 spec:
-  # Si el operador insiste en que spec no puede estar vacío, 
-  # intenta añadir una etiqueta vacía:
-  workloadSelectors: []
+  # Dejamos spec como un objeto vacío, sin campos dentro.
+  # Si Kubernetes protesta, prueba a poner un campo vacío que casi todos aceptan:
+  {}
