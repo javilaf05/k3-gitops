@@ -1,9 +1,1 @@
-cat <<EOF > /opt/proxygroup.yaml
-apiVersion: tailscale.com/v1alpha1
-kind: ProxyGroup
-metadata:
-  name: default
-  namespace: tailscale
-spec:
-  type: ingress
-EOF
+
