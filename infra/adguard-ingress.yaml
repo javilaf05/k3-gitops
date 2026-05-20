@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguard-ingress
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+  - host: adguard.jlc.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: adguard-service
+            port:
+              number: 3000
