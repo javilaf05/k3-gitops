@@ -1,9 +1,9 @@
+cat <<EOF > /opt/proxygroup.yaml
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyGroup
 metadata:
   name: default
   namespace: tailscale
 spec:
-  # Dejamos spec como un objeto vacío, sin campos dentro.
-  # Si Kubernetes protesta, prueba a poner un campo vacío que casi todos aceptan:
-  {}
+  type: ingress
+EOF
