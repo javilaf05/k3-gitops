@@ -72,17 +72,5 @@ metadata:
   name: nextcloud-ingress
   namespace: default
   annotations:
-    # Esta es la pieza que falta:
-    tailscale.com/proxy-group: "default" 
-spec:
-  ingressClassName: tailscale
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: nextcloud-service
-            port:
-              number: 80
+    # Esto le dice al operador: "usa el ProxyGroup que acabamos de crear"
+    tailscale.com/proxy-group: "default"
