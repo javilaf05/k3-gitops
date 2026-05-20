@@ -13,8 +13,6 @@ spec:
       labels:
         app: adguard-home
     spec:
-      hostNetwork: true 
-      dnsPolicy: ClusterFirstWithHostNet 
       containers:
       - name: adguard
         image: adguard/adguardhome:latest
