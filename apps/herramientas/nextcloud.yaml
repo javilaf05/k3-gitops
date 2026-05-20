@@ -65,18 +65,17 @@ spec:
   selector:
     app: nextcloud
 ---
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nextcloud-ingress
   namespace: default
-  annotations:
-    # Eliminamos cualquier rastro de traefik
-    kubernetes.io/ingress.class: "tailscale" 
+  # IMPORTANTE: No pongas anotaciones de traefik aquí.
 spec:
   ingressClassName: tailscale
   rules:
-  - http: # Al quitar la línea 'host', esto se vuelve un "catch-all"
+  - http:
       paths:
       - path: /
         pathType: Prefix
