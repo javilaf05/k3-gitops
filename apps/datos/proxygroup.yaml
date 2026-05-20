@@ -4,5 +4,6 @@ metadata:
   name: default
   namespace: tailscale
 spec:
-  # Esto evita el error de "null" y define un perfil básico
-  preset: Funnel
+  # Si el operador insiste en que spec no puede estar vacío, 
+  # intenta añadir una etiqueta vacía:
+  workloadSelectors: []
