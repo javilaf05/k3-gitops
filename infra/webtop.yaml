@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webtop
+  labels:
+    app: webtop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webtop
+  template:
+    metadata:
+      labels:
+        app: webtop
+    spec:
+      containers:
+      - name: webtop
+        image: lscr.io/linuxserver/webtop:ubuntu-xfce
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Madrid"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webtop-svc
+spec:
+  selector:
+    app: webtop
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webtop-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik 
+spec:
+  rules:
+  - host: desktop.jlc.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: webtop-svc
+            port:
+              number: 80
