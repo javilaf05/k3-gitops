@@ -44,11 +44,10 @@ kind: Ingress
 metadata:
   name: webtop-ingress
   annotations:
-    kubernetes.io/ingress.class: traefik 
+    kubernetes.io/ingress.class: traefik
 spec:
   rules:
-  - host: desktop.jlc.local
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
