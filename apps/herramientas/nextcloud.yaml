@@ -71,7 +71,9 @@ kind: Ingress
 metadata:
   name: nextcloud-ingress
   namespace: default
-  # IMPORTANTE: No pongas anotaciones de traefik aquí.
+  annotations:
+    # Esta es la pieza que falta:
+    tailscale.com/proxy-group: "default" 
 spec:
   ingressClassName: tailscale
   rules:
