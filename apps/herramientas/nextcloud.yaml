@@ -65,12 +65,22 @@ spec:
   selector:
     app: nextcloud
 ---
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nextcloud-ingress
   namespace: default
   annotations:
-    # Esto le dice al operador: "usa el ProxyGroup que acabamos de crear"
-    tailscale.com/proxy-group: "default"
+    tailscale.com/proxy-group: "default" # Asegúrate de que esto esté aquí
+spec:
+  ingressClassName: tailscale
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nextcloud-service
+            port:
+              number: 80
