@@ -13,7 +13,7 @@ spec:
       values: |
         server:
           extraArgs:
-            - "-retentionPeriod=7d"
+            retentionPeriod: "7d"
         persistence:
           enabled: true
           size: 10Gi
