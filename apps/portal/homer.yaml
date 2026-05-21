@@ -10,7 +10,7 @@ data:
     columns: "4"
     connectivityTest: true
     defaults:
-      layout: "dense"
+      layout: "columns"
       theme: "default"
     
     services:
