@@ -15,20 +15,16 @@ data:
     
     services:
       - name: "Infraestructura"
-        icon: "fas check-double"
+        icon: "fas fa-cogs"
         items:
           - name: "ArgoCD"
             subtitle: "Despliegue GitOps"
             tag: "infra"
             url: "http://argocd.jlc.local"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argo-cd.png"
-          - name: "Homer"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
-            subtitle: "Este Dashboard"
-            tag: "infra"
-            url: "http://homer.jlc.local"
+      
       - name: "Servicios"
-        icon: "fas network-wired"
+        icon: "fas fa-network-wired"
         items:
           - name: "Nextcloud"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
@@ -37,7 +33,7 @@ data:
             url: "http://nextcloud.jlc.local"
           - name: "Trilium Notes"
             logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
-            subtitle: "Base de Conocimiento Personal"
+            subtitle: "Base de Conocimiento"
             tag: "app"
             url: "http://trilium.jlc.local"
 ---
