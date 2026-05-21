@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-creds
+  namespace: default
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: bWluaW9hZG1pbg==
+  AWS_SECRET_ACCESS_KEY: bWluaW9hZG1pbg==
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: homelab-db-cluster
+  namespace: default
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  storage:
+    size: 3Gi
+    storageClass: local-path
+  backup:
+    retentionPolicy: "7d"
+    barmanObjectStore:
+      destinationPath: s3://cnpg-backups/
+      endpointURL: http://minio-service.default.svc.cluster.local:9000
+      s3Credentials:
+        accessKeyId:
+          name: minio-creds
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: minio-creds
+          key: AWS_SECRET_ACCESS_KEY
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: homelab-db-daily-backup
+  namespace: default
+spec:
+  immediate: true
+  schedule: "0 2 * * *"
+  cluster:
+    name: homelab-db-cluster
