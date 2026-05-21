@@ -75,10 +75,9 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: nextcloud.jlc.local
-    http:
+  - http:
       paths:
-      - path: /
+      - path: /nextcloud 
         pathType: Prefix
         backend:
           service:
