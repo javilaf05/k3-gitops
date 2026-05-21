@@ -7,7 +7,7 @@ data:
   config.yml: |
     title: "Homelab JLC"
     subtitle: "Panel de Control de Infraestructura"
-    columns: "3"
+    columns: "4"
     connectivityTest: true
     defaults:
       layout: "columns"
