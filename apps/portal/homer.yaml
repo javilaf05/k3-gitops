@@ -45,12 +45,12 @@ data:
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/vaultwarden.png"
             subtitle: "Gestor de Contraseñas"
             tag: "security"
-            url: "http://vault.jlc.local"
+            url: "https://vaultwarden.jlc.local"
           - name: "IT-Tools"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/it-tools.png"
             subtitle: "Herramientas de Red"
             tag: "tools"
-            url: "http://tools.jlc.local"
+            url: "http://it-tools.jlc.local"
 
       - name: "Monitorización"
         icon: "fas fa-chart-line"
@@ -79,7 +79,7 @@ spec:
   template:
     metadata:
       annotations:
-        reloader.stakater.com/config: "homer-config"
+        checksum/config: ${CONFIG_HASH}
       labels:
         app: homer
     spec:
