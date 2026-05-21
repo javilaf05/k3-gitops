@@ -29,10 +29,10 @@ spec:
   source:
     repoURL: 'https://github.com/javilaf05/k3-gitops.git'
     targetRevision: HEAD
-    path: infra
+    path: base 
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: default
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
@@ -52,6 +52,8 @@ spec:
     repoURL: 'https://github.com/javilaf05/k3-gitops.git'
     targetRevision: HEAD
     path: apps
+    directory:
+      recurse: true 
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
