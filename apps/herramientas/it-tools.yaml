@@ -50,9 +50,9 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-  - http:
+  - http: 
       paths:
-      - path: /tools
+      - path: /
         pathType: Prefix
         backend:
           service:
