@@ -73,12 +73,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: default-nextcloud-stripprefix@kubernetescrd
 spec:
   rules:
-  - http:
+  - host: nextcloud.jlc.local
+    http:
       paths:
-      - path: /nextcloud
+      - path: /
         pathType: Prefix
         backend:
           service:
