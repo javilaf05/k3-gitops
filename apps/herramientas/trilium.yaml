@@ -63,7 +63,7 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-  - http: # Al quitar 'host', Traefik responderá a cualquier petición a esta IP
+  - http: 
       paths:
       - path: /
         pathType: Prefix
