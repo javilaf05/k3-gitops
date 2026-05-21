@@ -1,4 +1,3 @@
-# 1. Configuración de scraping (Métricas)
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -47,7 +46,6 @@ data:
             action: replace
             target_label: kubernetes_pod_name
 ---
-# 2. Servicio de puente (Para que Grafana vea las métricas)
 apiVersion: v1
 kind: Service
 metadata:
@@ -63,48 +61,4 @@ spec:
   selector:
     app.kubernetes.io/instance: victoria-metrics
     app.kubernetes.io/name: victoria-metrics-single
----
-# 3. Aplicación ArgoCD (VictoriaLogs)
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: victorialogs-prod
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: https://victoriametrics.github.io/helm-charts
-    chart: victoria-logs-single
-    targetRevision: 0.12.4
-    helm:
-      values: |
-        persistence:
-          enabled: true
-          size: 10Gi
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitorizacion
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-# 4. Aplicación ArgoCD (VictoriaMetrics Métricas)
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: vm-metrics-prod
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: https://victoriametrics.github.io/helm-charts
-    chart: victoria-metrics-single
-    targetRevision: 0.17.0
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitorizacion
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+
