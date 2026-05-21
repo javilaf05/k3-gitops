@@ -41,32 +41,17 @@ spec:
   selector:
     app: it-tools
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: it-tools-ingress
   namespace: default
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.middlewares: default-tools-strip-prefix@kubernetescrd
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /tools
-        pathType: Prefix
-        backend:
-          service:
-            name: it-tools-service
-            port:
-              number: 80
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: tools-strip-prefix
-  namespace: default
-spec:
-  stripPrefix:
-    prefixes:
-      - /tools
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`it-tools.jlc.local`)
+      kind: Rule
+      services:
+        - name: it-tools-service
+          port: 80
