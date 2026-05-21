@@ -14,10 +14,14 @@ spec:
         loki:
           auth_enabled: false
           storage:
-            type: 'filesystem'
-        persistence:
-          enabled: true
-          size: 10Gi
+            type: 's3'
+            s3:
+              endpoint: http://minio.minio.svc.cluster.local:9000  # Cambia esto por la URL interna de tu servicio MinIO
+              bucketnames: loki-logs
+              access_key_id: minioadmin
+              secret_access_key: minioadmin
+              s3forcepathstyle: true
+              insecure: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion 
