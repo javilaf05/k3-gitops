@@ -13,15 +13,14 @@ spec:
     chart: crowdsec
     targetRevision: 0.24.0
     helm:
-      values: |
+      values: |-
         bouncer:
           enabled: true
           existingSecret: crowdsec-bouncer-key
           service:
             name: traefik
             namespace: kube-system
-        
-        additionalAcquisition:
+        acquisition:
           - source: kubernetes
             label: traefik
             pod_labels:
