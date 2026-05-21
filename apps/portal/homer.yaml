@@ -1,4 +1,4 @@
-# homer-unificado.yaml
+# homer-unificado-ip.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -21,13 +21,13 @@ data:
           - name: "ArgoCD"
             subtitle: "Despliegue GitOps"
             tag: "infra"
-            url: "http://argocd.jlc.local"
+            url: "http://100.102.120.122:80" # Ajusta el puerto si ArgoCD usa otro
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argo-cd.png"
           - name: "Homer"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
             subtitle: "Este Dashboard"
             tag: "infra"
-            url: "http://homer.jlc.local"
+            url: "http://100.102.120.122"
       - name: "Servicios"
         icon: "fas network-wired"
         items:
@@ -35,13 +35,15 @@ data:
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
             subtitle: "Nube Privada & Almacenamiento"
             tag: "app"
-            url: "http://nextcloud.jlc.local"
+            url: "http://100.102.120.122" # Traefik redirigirá esto según el path o host si es necesario
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
           - name: "Trilium Notes"
             logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
             subtitle: "Base de Conocimiento Personal"
             tag: "app"
-            url: "http://trilium.jlc.local"
+            url: "http://100.102.120.122"
 ---
+# (El resto del archivo sigue igual: Deployment, Service e Ingress)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
