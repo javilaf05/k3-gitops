@@ -112,10 +112,10 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: jellyfin.jlc.local
-    http:
+  - http: 
       paths:
       - path: /
         pathType: Prefix
