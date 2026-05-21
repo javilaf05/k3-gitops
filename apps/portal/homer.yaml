@@ -71,6 +71,9 @@ kind: Deployment
 metadata:
   name: homer
   namespace: default
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/hook: PostSync
 spec:
   replicas: 1
   selector:
@@ -79,7 +82,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: ${CONFIG_HASH}
+        timestamp: "2026-05-22T00:00:00Z"
       labels:
         app: homer
     spec:
