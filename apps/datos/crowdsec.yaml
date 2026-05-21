@@ -4,9 +4,13 @@ metadata:
   name: crowdsec
   namespace: argocd
 spec:
+  project: default
+  destination:
+    namespace: crowdsec
+    server: https://kubernetes.default.svc
   source:
-    chart: crowdsec
     repoURL: https://crowdsecurity.github.io/helm-charts
+    chart: crowdsec
     targetRevision: 0.24.0
     helm:
       values: |
@@ -21,9 +25,6 @@ spec:
             label: traefik
             pod_labels:
               app.kubernetes.io/name: traefik
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: crowdsec
   syncPolicy:
     automated:
       prune: true
