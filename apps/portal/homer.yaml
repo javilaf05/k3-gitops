@@ -43,10 +43,12 @@ metadata:
   name: homer
   namespace: default
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homer
   template:
     metadata:
-      annotations:
-        checksum/config: "${CONFIG_HASH}" 
       labels:
         app: homer
     spec:
