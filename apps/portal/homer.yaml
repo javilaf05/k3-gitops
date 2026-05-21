@@ -1,3 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homer-config
+  namespace: default
+data:
+  config.yml: |
+    title: "Homelab JLC"
+    subtitle: "Panel de Control de Infraestructura"
+    columns: "3"
+    connectivityTest: true
+    defaults:
+      layout: "columns"
+      theme: "default"
+    
+    services:
+      - name: "Infraestructura"
+        icon: "fas check-double"
+        items:
+          - name: "ArgoCD"
+            subtitle: "Despliegue GitOps"
+            tag: "infra"
+            url: "http://argocd.jlc.local"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argo-cd.png"
+          - name: "Homer"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
+            subtitle: "Este Dashboard"
+            tag: "infra"
+            url: "http://homer.jlc.local"
+      - name: "Servicios"
+        icon: "fas network-wired"
+        items:
+          - name: "Nextcloud"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
+            subtitle: "Nube Privada & Almacenamiento"
+            tag: "app"
+            url: "http://nextcloud.jlc.local"
+          - name: "Trilium Notes"
+            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
+            subtitle: "Base de Conocimiento Personal"
+            tag: "app"
+            url: "http://trilium.jlc.local"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -37,51 +80,27 @@ spec:
   ports:
   - port: 80
     targetPort: 8080
+    protocol: TCP
   selector:
     app: homer
 ---
-apiVersion: v1
-kind: ConfigMap
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: homer-config
+  name: homer-ingress
   namespace: default
-data:
-  config.yml: |
-    title: "Homelab JLC"
-    subtitle: "Panel de Control de Infraestructura"
-    columns: "3"
-    connectivityTest: true
-    defaults:
-      layout: "columns"
-      theme: "default"
-    
-    services:
-      - name: "Infraestructura"
-        icon: "fas check-double"
-        items:
-          - name: "ArgoCD"
-            subtitle: "Despliegue GitOps"
-            tag: "infra"
-            url: "http://argocd.jlc.local"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argo-cd.png"
-
-          - name: "Homer"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
-            subtitle: "Este Dashboard"
-            tag: "infra"
-            url: "http://homer.jlc.local"
-
-      - name: "Servicios"
-        icon: "fas network-wired"
-        items:
-          - name: "Nextcloud"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
-            subtitle: "Nube Privada & Almacenamiento"
-            tag: "app"
-            url: "http://nextcloud.jlc.local"
-
-          - name: "Trilium Notes"
-            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
-            subtitle: "Base de Conocimiento Personal"
-            tag: "app"
-            url: "http://trilium.jlc.local"
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+  - host: homer.jlc.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: homer-service
+            port:
+              number: 80
