@@ -18,10 +18,10 @@ spec:
             name: traefik
             namespace: kube-system
         acquisition:
-          - source: docker
-            container_name: traefik
-            labels:
-              type: traefik
+          - source: kubernetes
+            label: traefik
+            pod_labels:
+              app.kubernetes.io/name: traefik
   destination:
     server: https://kubernetes.default.svc
     namespace: crowdsec
