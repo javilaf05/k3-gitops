@@ -1,0 +1,110 @@
+# 1. Configuración de scraping (Métricas)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: victoriametrics-config
+  namespace: monitorizacion
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    scrape_configs:
+      - job_name: 'kubernetes-nodes'
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc.cluster.local:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/$1/proxy/metrics
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: kubernetes_pod_name
+---
+# 2. Servicio de puente (Para que Grafana vea las métricas)
+apiVersion: v1
+kind: Service
+metadata:
+  name: victoria-metrics-bridge
+  namespace: monitorizacion
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8428
+    targetPort: 8428
+    protocol: TCP
+  selector:
+    app.kubernetes.io/instance: victoria-metrics
+    app.kubernetes.io/name: victoria-metrics-single
+---
+# 3. Aplicación ArgoCD (VictoriaLogs)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: victorialogs-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://victoriametrics.github.io/helm-charts
+    chart: victoria-logs-single
+    targetRevision: 0.12.4
+    helm:
+      values: |
+        persistence:
+          enabled: true
+          size: 10Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitorizacion
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+# 4. Aplicación ArgoCD (VictoriaMetrics Métricas)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vm-metrics-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://victoriametrics.github.io/helm-charts
+    chart: victoria-metrics-single
+    targetRevision: 0.17.0
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitorizacion
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
