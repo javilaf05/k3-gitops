@@ -41,17 +41,21 @@ spec:
   selector:
     app: it-tools
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: it-tools-ingress
   namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
 spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host(`it-tools.jlc.local`)
-      kind: Rule
-      services:
-        - name: it-tools-service
-          port: 80
+  rules:
+  - http: 
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: it-tools-service
+            port:
+              number: 80
