@@ -1,3 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: vaultwarden-db
+  namespace: default
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  storage:
+    size: 2Gi
+    storageClass: local-path
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,15 +30,14 @@ spec:
         image: vaultwarden/server:latest
         ports:
         - containerPort: 80
-          name: http
         env:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: vaultwarden-db-app
+              name: vaultwarden-db-app 
               key: uri
         - name: SIGNUPS_ALLOWED
-          value: "true"  
+          value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -38,7 +49,6 @@ spec:
   - port: 80
     targetPort: 80
     protocol: TCP
-    name: http
   selector:
     app: vaultwarden
 ---
