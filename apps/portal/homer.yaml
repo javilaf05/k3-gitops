@@ -22,6 +22,12 @@ data:
             tag: "infra"
             url: "http://argocd.jlc.local"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argo-cd.png"
+            
+          - name: "Homer"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
+            subtitle: "Este Dashboard"
+            tag: "infra"
+            url: "http://homer.jlc.local"
       
       - name: "Servicios"
         icon: "fas fa-network-wired"
