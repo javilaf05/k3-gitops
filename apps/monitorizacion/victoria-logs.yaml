@@ -10,13 +10,13 @@ spec:
     chart: victoria-logs-single
     targetRevision: 0.12.4
     helm:
-  values: |
-    server:
-      extraArgs:
-        retentionPeriod: "7d"
-    persistence:
-      enabled: true
-      size: 10Gi
+    values: |
+      server:
+        extraArgs:
+          retentionPeriod: "7d"
+      persistence:
+        enabled: true
+        size: 10Gi
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion
