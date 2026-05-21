@@ -22,7 +22,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: Infraestructura
+  name: infraestructura
   namespace: argocd
 spec:
   project: default
@@ -44,7 +44,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: Datos
+  name: datos
   namespace: argocd
 spec:
   project: default
@@ -61,9 +61,9 @@ spec:
       selfHeal: true
 ---
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: application
 metadata:
-  name: Herramientas
+  name: herramientas
   namespace: argocd
 spec:
   project: default
@@ -82,7 +82,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: Monitorización
+  name: monitorizacion
   namespace: argocd
 spec:
   project: default
@@ -101,7 +101,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: Portal
+  name: portal
   namespace: argocd
 spec:
   project: default
