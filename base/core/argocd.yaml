@@ -1,35 +1,14 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: argocd-server-ingress
-  namespace: argocd
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.tls: "false"
-spec:
-  rules:
-  - host: argocd.jlc.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: argocd-server
-            port:
-              number: 80
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: homelab-infra
+  name: Infraestructura
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/javilaf05/k3-gitops.git'
     targetRevision: HEAD
-    path: base 
+    path: base
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
@@ -44,16 +23,14 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: homelab-apps
+  name: Datos
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/javilaf05/k3-gitops.git'
     targetRevision: HEAD
-    path: apps
-    directory:
-      recurse: true 
+    path: apps/datos
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
@@ -61,6 +38,60 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - ServerSideApply=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: Herramientas
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/javilaf05/k3-gitops.git'
+    targetRevision: HEAD
+    path: apps/herramientas
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: Monitorización
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/javilaf05/k3-gitops.git'
+    targetRevision: HEAD
+    path: apps/monitorizacion
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: Portal
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/javilaf05/k3-gitops.git'
+    targetRevision: HEAD
+    path: apps/portal
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
