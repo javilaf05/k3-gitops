@@ -36,6 +36,20 @@ data:
             subtitle: "Base de Conocimiento"
             tag: "app"
             url: "http://trilium.jlc.local"
+
+      - name: "Monitorización"
+        icon: "fas fa-chart-line"
+        items:
+          - name: "VictoriaMetrics"
+            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/victoriametrics.png"
+            subtitle: "Métricas del Clúster"
+            tag: "monitor"
+            url: "http://victoria.jlc.local"
+          - name: "VictoriaLogs"
+            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/victorialogs.png"
+            subtitle: "Logs del Sistema"
+            tag: "monitor"
+            url: "http://logs.jlc.local"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -49,6 +63,8 @@ spec:
       app: homer
   template:
     metadata:
+      annotations:
+        reloader.stakater.com/config: "homer-config"
       labels:
         app: homer
     spec:
