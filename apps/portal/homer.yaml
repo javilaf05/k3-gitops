@@ -13,38 +13,21 @@ data:
       layout: "columns"
       theme: "default"
     
+    # Edición específica en el ConfigMap de homer-unificado.yaml
     services:
-      - name: "Infraestructura"
-        icon: "fas check-double"
-        items:
-          - name: "ArgoCD"
-            subtitle: "Despliegue GitOps"
-            tag: "infra"
-            url: "http://10.43.0.1" # Nota: ArgoCD suele estar en otro puerto, si falla, verifica su puerto
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/argo-cd.png"
-          - name: "Homer"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/homer.png"
-            subtitle: "Este Dashboard"
-            tag: "infra"
-            url: "http://10.43.179.1"
       - name: "Servicios"
         icon: "fas network-wired"
         items:
           - name: "Nextcloud"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
-            subtitle: "Nube Privada & Almacenamiento"
+            subtitle: "Nube Privada"
             tag: "app"
-            url: "http://10.43.209.85"
+            url: "http://100.102.120.122" # Usamos la IP de Tailscale directamente
           - name: "Trilium Notes"
             logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
-            subtitle: "Base de Conocimiento Personal"
+            subtitle: "Notas"
             tag: "app"
-            url: "http://10.43.106.212"
-          - name: "Jellyfin"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/jellyfin.png"
-            subtitle: "Media Server"
-            tag: "app"
-            url: "http://10.43.125.128:8096"
+            url: "http://100.102.120.122" # Necesitarás diferenciar servicios por puerto o path
 ---
 apiVersion: apps/v1
 kind: Deployment
