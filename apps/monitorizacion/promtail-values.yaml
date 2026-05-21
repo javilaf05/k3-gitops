@@ -1,0 +1,44 @@
+serviceAccount:
+  create: true
+  name: promtail-serviceaccount
+
+rbac:
+  create: true
+
+config:
+  server:
+    http_listen_port: 9080
+    grpc_listen_port: 0
+  
+  target_config:
+    sync_period: 10s
+  snippets:
+    common:
+      fs_watch_method: poller
+
+  positions:
+    filename: /tmp/positions.yaml
+
+  clients:
+    - url: http://victorialogs-victoria-logs-single-server.monitorizacion.svc.cluster.local:9428/insert/loki/api/v1/push
+
+  scrape_configs:
+    - job_name: kubernetes-pods
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_annotation_promtail_io_scraping]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_pod_container_name]
+          target_label: container
+        - source_labels: [__meta_kubernetes_pod_name]
+          target_label: pod
+        - source_labels: [__meta_kubernetes_namespace]
+          target_label: namespace
+        - target_label: __address__
+          replacement: kubernetes.default.svc.cluster.local:443
+        - source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
+          separator: /
+          target_label: __path__
+          replacement: /var/log/pods/*$1/*.log
