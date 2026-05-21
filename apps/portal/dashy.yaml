@@ -38,14 +38,17 @@ data:
     appConfig:
       title: Mi Dashboard Móvil
     sections:
-      - name: Servicios Principales
+      - name: Servicios Internos
         items:
           - title: Nextcloud
-            link: /nextcloud # Asegúrate de que tu Ingress de Nextcloud use este path
+            icon: fas fa-cloud
+            link: http://10.43.209.85 # IP Nextcloud
           - title: Trilium
-            link: /trilium
+            icon: fas fa-book
+            link: http://10.43.106.212 # IP Trilium
           - title: IT-Tools
-            link: /tools
+            icon: fas fa-tools
+            link: http://10.43.58.242 # IP IT-Tools
 ---
 apiVersion: v1
 kind: Service
