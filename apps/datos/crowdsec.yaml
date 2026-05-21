@@ -13,18 +13,18 @@ spec:
     chart: crowdsec
     targetRevision: 0.24.0
     helm:
-      values: |
-        bouncer:
-          enabled: true
-          existingSecret: "crowdsec-bouncer-key"
-          service:
-            name: traefik
-            namespace: kube-system
-        acquisition:
-          - source: kubernetes
-            label: traefik
-            pod_labels:
-              app.kubernetes.io/name: traefik
+      bouncer:
+  enabled: true
+  existingSecret: crowdsec-bouncer-key
+  service:
+    name: traefik
+    namespace: kube-system
+
+acquisition:
+  - source: kubernetes
+    label: traefik
+    pod_labels:
+      app.kubernetes.io/name: traefik
   syncPolicy:
     automated:
       prune: true
