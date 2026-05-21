@@ -4,20 +4,14 @@ metadata:
   name: promtail
   namespace: argocd
 spec:
+  project: default
   source:
     repoURL: https://grafana.github.io/helm-charts
     chart: promtail
     targetRevision: 6.16.2
     helm:
-      values: |
-        config:
-          logLevel: info
-          server:
-            log_level: info
-          clients:
-            - url: http://victorialogs-victoria-logs-single-server.monitorizacion.svc.cluster.local:9428/insert/loki/api/v1/push
-        extraArgs:
-          - -client.external-labels=cluster=k3s
+      valueFiles:
+        - promtail-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion
