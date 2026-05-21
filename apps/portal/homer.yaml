@@ -40,16 +40,16 @@ data:
       - name: "Monitorización"
         icon: "fas fa-chart-line"
         items:
-          - name: "VictoriaMetrics"
-            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/victoriametrics.png"
-            subtitle: "Métricas del Clúster"
+          - name: "Grafana"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/grafana.png"
+            subtitle: "Visualización de métricas"
             tag: "monitor"
             url: "http://grafana.jlc.local"
-          - name: "VictoriaLogs"
-            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/victorialogs.png"
-            subtitle: "Logs del Sistema"
+          - name: "Uptime Kuma"
+            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/uptime-kuma.png"
+            subtitle: "Monitor de estado"
             tag: "monitor"
-            url: "http://grafana.jlc.local"
+            url: "http://status.jlc.local"
 ---
 apiVersion: apps/v1
 kind: Deployment
