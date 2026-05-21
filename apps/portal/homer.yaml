@@ -61,7 +61,6 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /www/assets/config.yml
-          subPath: config.yml
       volumes:
       - name: config-volume
         configMap:
