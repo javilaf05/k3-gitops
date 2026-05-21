@@ -29,7 +29,7 @@ spec:
   source:
     repoURL: 'https://github.com/javilaf05/k3-gitops.git'
     targetRevision: HEAD
-    path: base
+    path: base/core
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
