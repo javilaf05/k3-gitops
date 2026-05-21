@@ -4,24 +4,20 @@ metadata:
   name: promtail
   namespace: argocd
 spec:
-  project: default
   source:
     repoURL: https://grafana.github.io/helm-charts
     chart: promtail
     targetRevision: 6.16.2
     helm:
       values: |
-  config:
-    clients:
-      - url: http://victorialogs-victoria-logs-single-server.monitorizacion.svc.cluster.local:9428/insert/loki/api/v1/push
-    target_config:
-      sync_period: 10s
-    scrape_configs:
-      - job_name: kubernetes-pods
-        file_sd_configs:
-          - files:
-              - /var/log/pods/*.log
-        fs_watch_method: poller
+        config:
+          logLevel: info
+          server:
+            log_level: info
+          clients:
+            - url: http://victorialogs-victoria-logs-single-server.monitorizacion.svc.cluster.local:9428/insert/loki/api/v1/push
+        extraArgs:
+          - -client.external-labels=cluster=k3s
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion
