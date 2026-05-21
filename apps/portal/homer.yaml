@@ -22,7 +22,7 @@ data:
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
             subtitle: "Nube Privada"
             tag: "app"
-            url: "http://100.102.120.122" # Usamos la IP de Tailscale directamente
+            url: "http://10.43.209.85" # IP directa de Nextcloud Service
           - name: "Trilium Notes"
             logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
             subtitle: "Notas"
