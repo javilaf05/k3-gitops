@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: promtail
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: promtail
+    targetRevision: 6.16.2
+    helm:
+      values: |
+        config:
+          clients:
+            - url: http://victorialogs-victoria-logs-single-server.monitorizacion.svc.cluster.local:9428/insert/loki/api/v1/push
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitorizacion
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
