@@ -71,6 +71,26 @@ data:
             subtitle: "Monitor de estado"
             tag: "monitor"
             url: "http://status.jlc.local"
+            
+      - name: "Móvil"
+        icon: "fas fa-mobile-alt"
+        items:
+          - name: "Nextcloud"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/nextcloud.png"
+            subtitle: "Acceso a Archivos"
+            tag: "mobile"
+            url: "http://10.43.209.85"
+          - name: "Trilium Notes"
+            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/trilium.png"
+            subtitle: "Notas Rápidas"
+            tag: "mobile"
+            url: "http://10.43.106.212"
+          - name: "IT-Tools"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/it-tools.png"
+            subtitle: "Utilidades de Red"
+            tag: "mobile"
+            url: "http://10.43.58.242"
+      
 ---
 apiVersion: apps/v1
 kind: Deployment
