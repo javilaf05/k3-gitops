@@ -79,7 +79,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: ${CONFIG_HASH}
+        reloader.stakater.com/config: "homer-config"
       labels:
         app: homer
     spec:
