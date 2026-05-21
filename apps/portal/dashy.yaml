@@ -69,7 +69,8 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-  - http:
+  - host: dashy.jlc.local 
+    http:
       paths:
       - path: /
         pathType: Prefix
