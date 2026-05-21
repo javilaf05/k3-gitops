@@ -63,8 +63,7 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-  - host: trilium.jlc.local
-    http:
+  - http: # Al quitar 'host', Traefik responderá a cualquier petición a esta IP
       paths:
       - path: /
         pathType: Prefix
