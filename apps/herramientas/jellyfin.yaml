@@ -115,7 +115,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - http: 
+  - http:
       paths:
       - path: /
         pathType: Prefix
