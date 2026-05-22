@@ -90,7 +90,11 @@ data:
             subtitle: "Utilidades de Red"
             tag: "mobile"
             url: "http://10.43.58.242"
-      
+          - name: "Jellyfin"
+            logo: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/jellyfin.png"
+            subtitle: "Servidor Multimedia"
+            tag: "mobile"
+            url: "http://10.43.202.124:8096"
 ---
 apiVersion: apps/v1
 kind: Deployment
