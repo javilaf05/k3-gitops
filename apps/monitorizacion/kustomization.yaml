@@ -4,6 +4,3 @@ kind: Kustomization
 resources:
   - grafana.yaml
   - uptime-kuma.yaml
-  - victoria.yaml
-  - vmagent.yaml
-  - rbac.yaml
