@@ -30,23 +30,34 @@ data:
         kubernetes_sd_configs:
           - role: pod
         relabel_configs:
+          # 1. Solo escrapea pods que tengan la anotación: prometheus.io/scrape: "true"
           - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
             action: keep
             regex: true
+          
+          # 2. Usa el path definido en la anotación, si existe, si no usa /metrics
           - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
             action: replace
             target_label: __metrics_path__
             regex: (.+)
-          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            replacement: $1
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: drop
+            regex: ^$
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
             action: replace
-            regex: ([^:]+)(?::\d+)?;(\d+)
-            replacement: $1:$2
+            target_label: __metrics_path__
+            regex: ^$
+            replacement: /metrics
+
+          # 3. GARANTIZAR UNICIDAD: La etiqueta 'instance' será 'nombre-del-pod:puerto'
+          # Esto evita que dos puertos del mismo pod tengan la misma etiqueta.
+          - source_labels: [__meta_kubernetes_pod_name, __meta_kubernetes_pod_container_port_number]
+            action: replace
             target_label: instance
-          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
-            action: replace
-            regex: ([^:]+)(?::\d+)?;(\d+)
-            replacement: $1:$2
-            target_label: __address__
+            separator: ':'
+          
+          # 4. Etiquetas de Kubernetes estándar
           - action: labelmap
             regex: __meta_kubernetes_pod_label_(.+)
           - source_labels: [__meta_kubernetes_namespace]
