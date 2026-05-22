@@ -87,7 +87,7 @@ spec:
           mountPath: /etc/grafana/provisioning/dashboards/
         - name: dashboard-data
           mountPath: /etc/grafana/dashboards/
-        - name: storage # Montaje del PVC
+        - name: storage
           mountPath: /var/lib/grafana
       volumes:
       - name: datasources
