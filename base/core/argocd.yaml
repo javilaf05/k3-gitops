@@ -141,7 +141,6 @@ spec:
       prune: true
       selfHeal: true
 ---
-fullnameOverride: "vm-stack"
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -155,8 +154,16 @@ spec:
     targetRevision: 0.78.0 
     helm:
       values: |
+        fullnameOverride: "vm-stack"
+        
         vmoperator:
           enabled: true
+          
+        nodeExporter:
+          enabled: true
+          serviceMonitor:
+            annotations: {}
+            
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion
