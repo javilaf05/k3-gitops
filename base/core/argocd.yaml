@@ -167,7 +167,7 @@ spec:
         grafana:
           sidecar:
             dashboards:
-              enabled: true
+              enabled: false
               annotateDashboard: false
   destination:
     server: https://kubernetes.default.svc
