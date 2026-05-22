@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vmagent
+  namespace: monitorizacion
+spec:
+  selector:
+    matchLabels:
+      app: vmagent
+  template:
+    metadata:
+      labels:
+        app: vmagent
+    spec:
+      containers:
+      - name: vmagent
+        image: victoriametrics/vmagent
+        args:
+        - --remoteWrite.url=http://victoriametrics-victoria-metrics-single-server.monitorizacion.svc.cluster.local:8428/api/v1/write
