@@ -12,6 +12,7 @@ spec:
       labels:
         app: vmagent
     spec:
+      serviceAccountName: vmagent-sa
       containers:
       - name: vmagent
         image: victoriametrics/vmagent
