@@ -153,15 +153,17 @@ spec:
     chart: victoria-metrics-k8s-stack
     targetRevision: 0.78.0 
     helm:
-      releaseName: "vm" 
       values: |
-        fullnameOverride: "vm"
+        fullnameOverride: "vm-stack"
+
         vmoperator:
           enabled: true
+          
         nodeExporter:
           enabled: true
           serviceMonitor:
             annotations: {}
+            
         grafana:
           sidecar:
             dashboards:
