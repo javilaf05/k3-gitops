@@ -128,7 +128,7 @@ spec:
       serviceAccountName: promtail
       containers:
         - name: promtail
-          image: grafana/promtail:latest
+          image: grafana/promtail:2.9.0
           args:
             - -config.file=/etc/promtail/config.yaml
           volumeMounts:
@@ -171,3 +171,6 @@ data:
           - action: replace
             source_labels: [__meta_kubernetes_pod_container_name]
             target_label: container
+          - action: replace
+            replacement: /var/log/pods/*/*/*.log
+            target_label: __path__
