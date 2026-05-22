@@ -58,6 +58,7 @@ metadata:
   namespace: monitorizacion
 data:
   config.yaml: |
+    target: all
     auth_enabled: false
     server:
       http_listen_port: 3100
