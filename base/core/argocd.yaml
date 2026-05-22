@@ -150,12 +150,16 @@ spec:
   project: default
   source:
     repoURL: https://victoriametrics.github.io/helm-charts
-    chart: victoria-metrics-single
-    targetRevision: 0.17.0
+    chart: victoria-metrics-k8s-stack
+    targetRevision: 0.78.0 
+    helm:
+      values: |
+        vmoperator:
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion
   syncPolicy:
     automated:
       prune: true
-      selfHeal: true
+      selfHeel: true
