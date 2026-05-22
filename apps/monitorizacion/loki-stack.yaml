@@ -24,6 +24,15 @@ spec:
       labels:
         app: loki
     spec:
+      securityContext:
+        fsGroup: 10001 
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "mkdir -p /tmp/loki/chunks /tmp/loki/rules && chown -R 10001:10001 /tmp/loki"]
+          volumeMounts:
+            - name: storage
+              mountPath: /tmp/loki
       containers:
         - name: loki
           image: grafana/loki:latest
@@ -33,10 +42,14 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/loki
+            - name: storage
+              mountPath: /tmp/loki
       volumes:
         - name: config
           configMap:
             name: loki-config
+        - name: storage
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: ConfigMap
