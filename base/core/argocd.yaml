@@ -165,7 +165,8 @@ spec:
         grafana:
           sidecar:
             dashboards:
-              enabled: false
+              enabled: true
+              annotateDashboard: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion
