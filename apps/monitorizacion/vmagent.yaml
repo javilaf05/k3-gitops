@@ -1,28 +1,16 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAgent
 metadata:
   name: vmagent
   namespace: monitorizacion
 spec:
-  selector:
-    matchLabels:
-      app: vmagent
-  template:
-    metadata:
-      labels:
-        app: vmagent
-    spec:
-      serviceAccountName: vmagent-sa
-      containers:
-      - name: vmagent
-        image: victoriametrics/vmagent
-        args:
-          - "--remoteWrite.url=http://victoriametrics-victoria-metrics-single-server.monitorizacion.svc.cluster.local:8428/api/v1/write"
-          - "-promscrape.config.strictParse=false"
-        volumeMounts:
-          - name: config-volume
-            mountPath: /etc/vmagent/
-      volumes:
-        - name: config-volume
-          configMap:
-            name: victoriametrics-config
+  serviceAccountName: vmagent-sa
+  remoteWrite:
+    - url: "http://victoriametrics-victoria-metrics-single-server.monitorizacion.svc.cluster.local:8428/api/v1/write"
+  volumes:
+    - name: config-volume
+      configMap:
+        name: victoriametrics-config
+  volumeMounts:
+    - name: config-volume
+      mountPath: /etc/vmagent/
