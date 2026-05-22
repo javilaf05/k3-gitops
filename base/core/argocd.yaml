@@ -144,7 +144,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: victoriametrics
+  name: vm-stack
   namespace: argocd
 spec:
   project: default
@@ -153,17 +153,19 @@ spec:
     chart: victoria-metrics-k8s-stack
     targetRevision: 0.78.0 
     helm:
+      releaseName: "vm" 
       values: |
-        fullnameOverride: "vm-stack"
-        
+        fullnameOverride: "vm"
         vmoperator:
           enabled: true
-          
         nodeExporter:
           enabled: true
           serviceMonitor:
             annotations: {}
-            
+        grafana:
+          sidecar:
+            dashboards:
+              enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitorizacion
