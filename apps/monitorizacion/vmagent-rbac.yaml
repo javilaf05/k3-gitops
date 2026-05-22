@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: vmagent-node-proxy-role
+rules:
+- apiGroups: [""]
+  resources: ["nodes/proxy", "nodes/metrics"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vmagent-node-proxy-binding
+subjects:
+- kind: ServiceAccount
+  name: vmagent-sa
+  namespace: monitorizacion
+roleRef:
+  kind: ClusterRole
+  name: vmagent-node-proxy-role
+  apiGroup: rbac.authorization.k8s.io
