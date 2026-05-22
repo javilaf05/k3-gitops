@@ -1,4 +1,16 @@
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pvc
+  namespace: monitorizacion
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-datasources
@@ -58,6 +70,8 @@ spec:
       labels:
         app: grafana
     spec:
+      securityContext:
+        fsGroup: 472 
       containers:
       - name: grafana
         image: grafana/grafana:latest
@@ -73,6 +87,8 @@ spec:
           mountPath: /etc/grafana/provisioning/dashboards/
         - name: dashboard-data
           mountPath: /etc/grafana/dashboards/
+        - name: storage # Montaje del PVC
+          mountPath: /var/lib/grafana
       volumes:
       - name: datasources
         configMap:
@@ -83,6 +99,9 @@ spec:
       - name: dashboard-data
         configMap:
           name: grafana-dashboard-data
+      - name: storage 
+        persistentVolumeClaim:
+          claimName: grafana-pvc
 ---
 apiVersion: v1
 kind: Service
