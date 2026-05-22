@@ -16,4 +16,12 @@ spec:
       - name: vmagent
         image: victoriametrics/vmagent
         args:
-        - --remoteWrite.url=http://victoriametrics-victoria-metrics-single-server.monitorizacion.svc.cluster.local:8428/api/v1/write
+          - "--remoteWrite.url=http://victoriametrics-victoria-metrics-single-server.monitorizacion.svc.cluster.local:8428/api/v1/write"
+          - "-promscrape.config=/etc/vmagent/prometheus.yml"
+        volumeMounts:
+          - name: config-volume
+            mountPath: /etc/vmagent/
+      volumes:
+        - name: config-volume
+          configMap:
+            name: victoriametrics-config
